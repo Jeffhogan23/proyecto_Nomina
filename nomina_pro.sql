@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-03-2024 a las 20:52:06
+-- Tiempo de generación: 22-03-2024 a las 21:11:48
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -52,7 +52,8 @@ CREATE TABLE `bonificaciones` (
 --
 
 INSERT INTO `bonificaciones` (`IDBonificacion`, `TipoBonificacion`, `MontoBonificacion`) VALUES
-(1, 'Auxilio de Transporte', 162000.00);
+(1, 'Auxilio de Transporte', 162000.00),
+(2, 'No Aplica', 0.00);
 
 -- --------------------------------------------------------
 
@@ -76,7 +77,7 @@ INSERT INTO `cargo` (`IDcargo`, `NombreCargo`, `SalarioCargo`) VALUES
 (3, 'Director Administrativo', 12500000),
 (4, 'Auxiliar Administrativo', 1950000),
 (5, 'Abogado', 2800000),
-(6, 'Contador Publico', 2600000);
+(6, 'Contador Publico', 3000000);
 
 -- --------------------------------------------------------
 
@@ -338,7 +339,7 @@ INSERT INTO `departamento` (`IDdep`, `NombreDep`) VALUES
 
 CREATE TABLE `nómina` (
   `IDNomina` int(11) NOT NULL,
-  `IDEmpleado` int(11) DEFAULT NULL,
+  `IDusuario` int(11) DEFAULT NULL,
   `FechaNomina` date DEFAULT NULL,
   `Mes` varchar(10) NOT NULL,
   `DiasTrabajados` int(5) NOT NULL,
@@ -346,8 +347,16 @@ CREATE TABLE `nómina` (
   `ValorParafiscales` decimal(10,2) NOT NULL,
   `ValorPrestamo` decimal(10,2) NOT NULL,
   `TotalDeducidos` decimal(10,2) DEFAULT NULL,
-  `TotalAuxilioTransporte` decimal(10,2) DEFAULT NULL
+  `IDBonificacion` int(11) DEFAULT NULL,
+  `NetoPagado` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `nómina`
+--
+
+INSERT INTO `nómina` (`IDNomina`, `IDusuario`, `FechaNomina`, `Mes`, `DiasTrabajados`, `SalarioNeto`, `ValorParafiscales`, `ValorPrestamo`, `TotalDeducidos`, `IDBonificacion`, `NetoPagado`) VALUES
+(1, 1, '2024-03-22', 'Marzo', 25, 2500000.00, 225000.00, 125000.00, 350000.00, 2, 2150000.00);
 
 -- --------------------------------------------------------
 
@@ -503,7 +512,8 @@ ALTER TABLE `departamento`
 --
 ALTER TABLE `nómina`
   ADD PRIMARY KEY (`IDNomina`),
-  ADD KEY `IDEmpleado` (`IDEmpleado`);
+  ADD KEY `IDusuario` (`IDusuario`) USING BTREE,
+  ADD KEY `IDBonificacion` (`IDBonificacion`);
 
 --
 -- Indices de la tabla `parafiscales`
@@ -548,7 +558,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `cargo`
 --
 ALTER TABLE `cargo`
-  MODIFY `IDcargo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `IDcargo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `ciudad`
@@ -561,6 +571,12 @@ ALTER TABLE `ciudad`
 --
 ALTER TABLE `departamento`
   MODIFY `IDdep` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+
+--
+-- AUTO_INCREMENT de la tabla `nómina`
+--
+ALTER TABLE `nómina`
+  MODIFY `IDNomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `prestamos`
@@ -600,7 +616,8 @@ ALTER TABLE `ciudad`
 -- Filtros para la tabla `nómina`
 --
 ALTER TABLE `nómina`
-  ADD CONSTRAINT `nómina_ibfk_1` FOREIGN KEY (`IDEmpleado`) REFERENCES `usuario` (`IDusuario`);
+  ADD CONSTRAINT `nómina_ibfk_1` FOREIGN KEY (`IDusuario`) REFERENCES `usuario` (`IDusuario`),
+  ADD CONSTRAINT `nómina_ibfk_2` FOREIGN KEY (`IDBonificacion`) REFERENCES `bonificaciones` (`IDBonificacion`);
 
 --
 -- Filtros para la tabla `prestamos`

@@ -1,0 +1,43 @@
+.wrapper {
+    padding: 20px;
+}
+
+.download-icon {
+    font-size: 24px;
+    color: #000;
+}
+
+.table td,
+.table th {
+    text-align: center;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    width: 1000px;
+    margin-left: -60px;
+}
+
+.page-header h2 {
+    margin-top: 0;
+}
+
+table tr td:last-child a {
+    margin-right: 5px;
+}
+
+.section-content {
+    display: flex;
+    padding-bottom: 30px;
+}
+
+.section-content input {
+    margin-right: 400px;
+}
+
+@media (max-width: 767px) {
+            .section-content input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }

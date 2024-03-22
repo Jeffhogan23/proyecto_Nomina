@@ -1,0 +1,320 @@
+body{
+    background: url('../img/conta.png') no-repeat;
+}
+
+#salario {
+    padding: 0.5rem;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    width: 94%;
+    background-color: #ffffff63;/
+}
+
+.checkbox-button-container .form-group {
+    margin-bottom: 0;
+    /* Elimina el margen inferior */
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 97vh;
+    /* Ajusta este valor según tus necesidades */
+}
+
+.form-group label {
+    /* ...otros estilos... */
+    color: #fff;
+    font-family: Arial, sans-serif;
+    /* Selecciona la fuente deseada */
+    font-size: 20px;
+    /* Ajusta el tamaño de la fuente según sea necesario */
+    font-weight: bold;
+    /* Hace que el texto sea más negrita */
+    text-align: left;
+    padding-bottom: -5px;
+    margin-bottom: 0.5rem;
+    align-self: flex-start;
+    /* Alinea el label a la izquierda */
+}
+
+.select {
+    /*colores de letras del select*/
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.select-active {
+    background-color: #ec0000;
+}
+
+.form-container {
+    padding: 2rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 600px;
+    background-color: rgba(8, 8, 8, 0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.form-register {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.form-column {
+    flex: 1;
+    max-width: 100%;
+    padding: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    /* Centra los elementos horizontalmente */
+}
+
+/* Establecer el ancho fijo para todos los campos y selects */
+.form-group input,
+.form-group select {
+    width: 100%;
+    /* Ancho al 100% del contenedor */
+}
+
+.register-button {
+    grid-column: 1 / -1;
+    margin: 1rem auto 0;
+    /* Margen superior, auto para centrar horizontalmente, sin margen inferior */
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: #641717;
+    color: #32f800;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: block;
+    /* Agregado para centrar el botón */
+}
+
+.register-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(214, 14, 14, 0.932);
+}
+
+.register-button:hover {
+    background: linear-gradient(to right, #fc0404, #f10303);
+}
+
+.register-button:hover {
+    background-color: #2afc00;
+}
+
+.controls {
+    padding: 0.5rem;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    background-color: #ffffff63;
+    /* Mismo fondo que los demás campos */
+}
+
+.select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('arrow_down.png') no-repeat scroll right center transparent;
+    background-size: 20px;
+    padding-right: 25px;
+}
+
+.password-field {
+    position: relative;
+    width: 107%;
+    /* Ajusta el ancho del campo de contraseña */
+}
+
+.password-field input {
+    
+    /* Ajusta el ancho del input */
+    padding-right: 20px;
+    /* Espacio para el icono de mostrar/ocultar contraseña */
+    height: 15px;
+    /* Ajusta la altura del campo de contraseña */
+}
+
+.show-password {
+    position: absolute;
+    top: 50%;
+    /* Centra verticalmente */
+    right: 0.5rem;
+    /* Ajusta la distancia desde el borde derecho */
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 24px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls {
+    /* ...otros estilos... */
+    background-color: #ffffff63;
+}
+
+.select {
+    /* ...otros estilos... */
+    background-color: #fafafa65;
+}
+
+.select-active {
+    background-color: #ec0000;
+}
+
+.form-container {
+    padding: 2rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 600px;
+    background-color: rgba(8, 8, 8, 0.3);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.form-register {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.form-column {
+    flex: 1;
+    max-width: 100%;
+    padding: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    /* Centra los elementos horizontalmente */
+}
+
+.form-group label {
+    text-align: left;
+    margin-bottom: 0.5rem;
+}
+
+/* Establecer el ancho fijo para todos los campos y selects */
+.form-group input,
+.form-group select {
+    width: 100%;
+    /* Ancho al 100% del contenedor */
+}
+
+.register-button {
+    grid-column: 1 / -1;
+    margin: 1rem auto 0;
+    /* Margen superior, auto para centrar horizontalmente, sin margen inferior */
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 0.25rem;
+    background-color: #641717;
+    color: #32f800;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    display: block;
+    /* Agregado para centrar el botón */
+}
+
+
+.register-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(214, 14, 14, 0.932);
+}
+
+.register-button:hover {
+    background: linear-gradient(to right, #fc0404, #f10303);
+}
+
+.register-button:hover {
+    background-color: #2afc00;
+}
+
+.controls {
+    padding: 0.5rem;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 0.5rem;
+    background-color: #ffffff63;
+    /* Mismo fondo que los demás campos */
+}
+
+.select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('arrow_down.png') no-repeat scroll right center transparent;
+    background-size: 20px;
+    padding-right: 25px;
+}
+
+.password-field {
+    position: relative;
+    width: 107%;
+    /* Ajusta el ancho del campo de contraseña */
+}
+
+.password-field input {
+    width: calc(100% - 30px);
+    /* Ajusta el ancho del input */
+    padding-right: 20px;
+    /* Espacio para el icono de mostrar/ocultar contraseña */
+    height: 15px;
+    /* Ajusta la altura del campo de contraseña */
+}
+
+.show-password {
+    position: absolute;
+    top: 50%;
+    /* Centra verticalmente */
+    right: 0.5rem;
+    /* Ajusta la distancia desde el borde derecho */
+    transform: translateY(-50%);
+    cursor: pointer;
+    width: 24px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls {
+    /* ...otros estilos... */
+    background-color: #ffffff63;
+}
+
+.select {
+    /* ...otros estilos... */
+    background-color: #fafafa65;
+}

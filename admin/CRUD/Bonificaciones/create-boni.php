@@ -20,7 +20,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Validate amount
     $input_amount = trim($_POST["amount"]);
-    if(empty($input_amount)){
+    if(empty($input_amount) && $input_amount !== '0'){
         $amount_err = "Por favor ingrese el monto de la bonificación.";
     } else{
         $amount = $input_amount;
@@ -28,12 +28,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Check input errors before inserting in database
     if(empty($name_err) && empty($amount_err)){
+        // Obtener el valor máximo actual de la columna IDparafiscal
+        $sql_max_id = "SELECT MAX(IDBonificacion) AS max_id FROM bonificaciones";
+        $result_max_id = mysqli_query($link, $sql_max_id);
+        $row_max_id = mysqli_fetch_assoc($result_max_id);
+        $next_id = $row_max_id['max_id'] + 1;
+
         // Prepare an insert statement
-        $sql = "INSERT INTO bonificaciones (TipoBonificacion, MontoBonificacion) VALUES (?, ?)";
+        $sql = "INSERT INTO bonificaciones (IDBonificacion, TipoBonificacion, MontoBonificacion) VALUES (?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sd", $param_name, $param_amount);
+            mysqli_stmt_bind_param($stmt, "isd", $next_id, $param_name, $param_amount);
             
             // Set parameters
             $param_name = $name;

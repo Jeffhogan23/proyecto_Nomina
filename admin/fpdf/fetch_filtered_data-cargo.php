@@ -45,7 +45,7 @@ if ($result = mysqli_query($conn, $sql)) {
         // Free result set
         mysqli_free_result($result);
     } else {
-        $html .= "<p class='lead'><em>No se encontraron registros.</em></p>";
+        $html .= "<p style='padding-left:150px;' class='lead'><em>No se encontraron registros.</em></p>";
     }
 } else {
     $html .= "ERROR: No se pudo ejecutar $sql. " . mysqli_error($conn);

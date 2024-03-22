@@ -76,7 +76,7 @@ $con = $db->conectar();
                                 <?php
 
                                     // Attempt select query execution
-                                    $sql = "SELECT n.*, u.Nombre, u.Apellido, b.TipoBonificacion FROM nomina n 
+                                    $sql = "SELECT n.*, u.Nombre, u.Apellido, b.MontoBonificacion FROM nomina n 
                                             INNER JOIN usuario u ON n.IDusuario = u.IDusuario
                                             LEFT JOIN bonificaciones b ON n.IDBonificacion = b.IDBonificacion";
                                     $result = mysqli_query($link, $sql);
@@ -112,7 +112,7 @@ $con = $db->conectar();
                                                         echo "<td>" . $row['ValorParafiscales'] . "</td>";
                                                         echo "<td>" . $row['ValorPrestamo'] . "</td>";
                                                         echo "<td>" . $row['TotalDeducidos'] . "</td>";
-                                                        echo "<td>" . $row['TipoBonificacion'] . "</td>";
+                                                        echo "<td>" . $row['MontoBonificacion'] . "</td>";
                                                         echo "<td>" . $row['NetoPagado'] . "</td>";
                                                         echo "<td>";
                                                             echo "<a href='Nomina/update-nom.php?id=" . $row['IDNomina'] . "' title='Actualizar' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";

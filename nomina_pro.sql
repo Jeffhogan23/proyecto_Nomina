@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-03-2024 a las 21:11:48
+-- Tiempo de generación: 22-03-2024 a las 22:40:05
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -30,10 +30,18 @@ SET time_zone = "+00:00";
 CREATE TABLE `asistencia` (
   `IDAsistencia` int(11) NOT NULL,
   `IDusuario` int(11) DEFAULT NULL,
-  `FechaAsistencia` date DEFAULT NULL,
-  `HorasTrabajadas` decimal(10,2) DEFAULT NULL,
-  `tip_entrada` int(1) NOT NULL
+  `FechayHora` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `asistencia`
+--
+
+INSERT INTO `asistencia` (`IDAsistencia`, `IDusuario`, `FechayHora`) VALUES
+(1, 1, '2024-03-13 16:37:51'),
+(2, 1, '2024-03-14 16:37:32'),
+(3, 123456789, '2024-03-14 16:22:52'),
+(4, 1106392385, '2024-03-20 16:39:19');
 
 -- --------------------------------------------------------
 
@@ -334,10 +342,10 @@ INSERT INTO `departamento` (`IDdep`, `NombreDep`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `nómina`
+-- Estructura de tabla para la tabla `nomina`
 --
 
-CREATE TABLE `nómina` (
+CREATE TABLE `nomina` (
   `IDNomina` int(11) NOT NULL,
   `IDusuario` int(11) DEFAULT NULL,
   `FechaNomina` date DEFAULT NULL,
@@ -352,10 +360,10 @@ CREATE TABLE `nómina` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `nómina`
+-- Volcado de datos para la tabla `nomina`
 --
 
-INSERT INTO `nómina` (`IDNomina`, `IDusuario`, `FechaNomina`, `Mes`, `DiasTrabajados`, `SalarioNeto`, `ValorParafiscales`, `ValorPrestamo`, `TotalDeducidos`, `IDBonificacion`, `NetoPagado`) VALUES
+INSERT INTO `nomina` (`IDNomina`, `IDusuario`, `FechaNomina`, `Mes`, `DiasTrabajados`, `SalarioNeto`, `ValorParafiscales`, `ValorPrestamo`, `TotalDeducidos`, `IDBonificacion`, `NetoPagado`) VALUES
 (1, 1, '2024-03-22', 'Marzo', 25, 2500000.00, 225000.00, 125000.00, 350000.00, 2, 2150000.00);
 
 -- --------------------------------------------------------
@@ -480,7 +488,7 @@ INSERT INTO `usuario` (`IDusuario`, `Nombre`, `Apellido`, `Correo`, `Contraseña
 --
 ALTER TABLE `asistencia`
   ADD PRIMARY KEY (`IDAsistencia`),
-  ADD KEY `IDEmpleado` (`IDusuario`);
+  ADD KEY `IDusuario` (`IDusuario`) USING BTREE;
 
 --
 -- Indices de la tabla `bonificaciones`
@@ -508,9 +516,9 @@ ALTER TABLE `departamento`
   ADD PRIMARY KEY (`IDdep`);
 
 --
--- Indices de la tabla `nómina`
+-- Indices de la tabla `nomina`
 --
-ALTER TABLE `nómina`
+ALTER TABLE `nomina`
   ADD PRIMARY KEY (`IDNomina`),
   ADD KEY `IDusuario` (`IDusuario`) USING BTREE,
   ADD KEY `IDBonificacion` (`IDBonificacion`);
@@ -555,6 +563,12 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `asistencia`
+--
+ALTER TABLE `asistencia`
+  MODIFY `IDAsistencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT de la tabla `cargo`
 --
 ALTER TABLE `cargo`
@@ -573,9 +587,9 @@ ALTER TABLE `departamento`
   MODIFY `IDdep` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
--- AUTO_INCREMENT de la tabla `nómina`
+-- AUTO_INCREMENT de la tabla `nomina`
 --
-ALTER TABLE `nómina`
+ALTER TABLE `nomina`
   MODIFY `IDNomina` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -613,11 +627,11 @@ ALTER TABLE `ciudad`
   ADD CONSTRAINT `ciudad_ibfk_1` FOREIGN KEY (`IDdep`) REFERENCES `departamento` (`IDdep`);
 
 --
--- Filtros para la tabla `nómina`
+-- Filtros para la tabla `nomina`
 --
-ALTER TABLE `nómina`
-  ADD CONSTRAINT `nómina_ibfk_1` FOREIGN KEY (`IDusuario`) REFERENCES `usuario` (`IDusuario`),
-  ADD CONSTRAINT `nómina_ibfk_2` FOREIGN KEY (`IDBonificacion`) REFERENCES `bonificaciones` (`IDBonificacion`);
+ALTER TABLE `nomina`
+  ADD CONSTRAINT `nomina_ibfk_1` FOREIGN KEY (`IDusuario`) REFERENCES `usuario` (`IDusuario`),
+  ADD CONSTRAINT `nomina_ibfk_2` FOREIGN KEY (`IDBonificacion`) REFERENCES `bonificaciones` (`IDBonificacion`);
 
 --
 -- Filtros para la tabla `prestamos`

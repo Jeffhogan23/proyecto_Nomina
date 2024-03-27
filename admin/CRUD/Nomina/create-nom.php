@@ -1,7 +1,11 @@
 <?php
 require '../../../config/database.php';    
 $db = new Database();
-$con = $db->conectar();
+try {
+    $con = $db->conectar();
+} catch(PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
 
 $IDusuario = $FechaNomina = $Mes = $DiasTrabajados = $SalarioNeto = $ValorParafiscales = $ValorPrestamo = $TotalDeducidos = $IDBonificacion = $NetoPagado = "";
 $IDusuario_err = $FechaNomina_err = $Mes_err = $DiasTrabajados_err = $SalarioNeto_err = $ValorParafiscales_err = $ValorPrestamo_err = $TotalDeducidos_err = $IDBonificacion_err = $NetoPagado_err = "";
@@ -73,53 +77,45 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $NetoPagado = $input_NetoPagado;
     }
 
-    if(empty($IDusuario_err) && empty($FechaNomina_err) && empty($Mes_err) && empty($DiasTrabajados_err) && empty($SalarioNeto_err) && empty($ValorParafiscales_err) && empty($ValorPrestamo_err) && empty($TotalDeducidos_err) && empty($NetoPagado_err)){
-        $sql = "INSERT INTO nomina (IDusuario, FechaNomina, Mes, DiasTrabajados, SalarioNeto, ValorParafiscales, ValorPrestamo, TotalDeducidos, IDBonificacion, NetoPagado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        if($stmt = $con->prepare($sql)){
-            $stmt->bind_param("ssssssssss", $param_IDusuario, $param_FechaNomina, $param_Mes, $param_DiasTrabajados, $param_SalarioNeto, $param_ValorParafiscales, $param_ValorPrestamo, $param_TotalDeducidos, $param_IDBonificacion, $param_NetoPagado);
-            
-            $param_IDusuario = $IDusuario;
-            $param_FechaNomina = $FechaNomina;
-            $param_Mes = $Mes;
-            $param_DiasTrabajados = $DiasTrabajados;
-            $param_SalarioNeto = $SalarioNeto;
-            $param_ValorParafiscales = $ValorParafiscales;
-            $param_ValorPrestamo = $ValorPrestamo;
-            $param_TotalDeducidos = $TotalDeducidos;
-            $param_IDBonificacion = $IDBonificacion;
-            $param_NetoPagado = $NetoPagado;
-            
-            if($stmt->execute()){
-                header("location: ../crud-Nomina.php");
-                exit();
-            } else{
-                echo "Error: " . $con->error;
-            }
-
-            // Cerrar el objeto $stmt
-            $stmt->close();
+    if(empty($IDusuario_err) && empty($FechaNomina_err) && empty($Mes_err) && empty($DiasTrabajados_err) && empty($SalarioNeto_err) && empty($ValorParafiscales_err) && empty($ValorPrestamo_err) && empty($TotalDeducidos_err) && empty($NetoPagado_err)) {
+        // Obtener el valor máximo actual de la columna IDNomina
+        $sql_max_id = "SELECT MAX(IDNomina) AS max_id FROM nomina";
+        $result_max_id = $con->query($sql_max_id);
+        $row_max_id = $result_max_id->fetch(PDO::FETCH_ASSOC);
+        $next_id = $row_max_id['max_id'] + 1;
+    
+        $sql = "INSERT INTO nomina (IDNomina, IDusuario, FechaNomina, Mes, DiasTrabajados, SalarioNeto, ValorParafiscales, ValorPrestamo, TotalDeducidos, IDBonificacion, NetoPagado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $con->prepare($sql);
+        $stmt->execute([$next_id, $IDusuario, $FechaNomina, $Mes, $DiasTrabajados, $SalarioNeto, $ValorParafiscales, $ValorPrestamo, $TotalDeducidos, $IDBonificacion, $NetoPagado]);
+    
+        if ($stmt->rowCount() > 0) {
+            header("location: ../crud-Nomina.php");
+            exit();
+        } else {
+            echo "Error: " . $stmt->errorInfo()[2];
         }
-        
-        // Cerrar la conexión
-        $con = null;
+    
+        $stmt->close();
     }
+    $con = null;
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Agregar Bonificación</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
-        .wrapper{
-            width: 500px;
-            margin: 0 auto;
-        }
+    .wrapper {
+        width: 500px;
+        margin: 0 auto;
+    }
     </style>
 </head>
+
 <body>
     <div class="wrapper">
         <div class="container-fluid">
@@ -153,7 +149,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                         <div class="form-group <?php echo (!empty($FechaNomina_err)) ? 'has-error' : ''; ?>">
                             <label>Fecha de la Nómina</label>
-                            <input type="date" name="FechaNomina" class="form-control" value="<?php echo $FechaNomina; ?>">
+                            <input type="date" name="FechaNomina" class="form-control"
+                                value="<?php echo $FechaNomina; ?>">
                             <span class="help-block"><?php echo $FechaNomina_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($Mes_err)) ? 'has-error' : ''; ?>">
@@ -163,27 +160,32 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                         <div class="form-group <?php echo (!empty($DiasTrabajados_err)) ? 'has-error' : ''; ?>">
                             <label>Días Trabajados</label>
-                            <input type="text" name="DiasTrabajados" class="form-control" value="<?php echo $DiasTrabajados; ?>">
+                            <input type="text" name="DiasTrabajados" class="form-control"
+                                value="<?php echo $DiasTrabajados; ?>">
                             <span class="help-block"><?php echo $DiasTrabajados_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($SalarioNeto_err)) ? 'has-error' : ''; ?>">
                             <label>Salario Neto</label>
-                            <input type="text" name="SalarioNeto" class="form-control" value="<?php echo $SalarioNeto; ?>">
+                            <input type="text" name="SalarioNeto" class="form-control"
+                                value="<?php echo $SalarioNeto; ?>">
                             <span class="help-block"><?php echo $SalarioNeto_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($ValorParafiscales_err)) ? 'has-error' : ''; ?>">
                             <label>Valor de Parafiscales</label>
-                            <input type="text" name="ValorParafiscales" class="form-control" value="<?php echo $ValorParafiscales; ?>">
+                            <input type="text" name="ValorParafiscales" class="form-control"
+                                value="<?php echo $ValorParafiscales; ?>">
                             <span class="help-block"><?php echo $ValorParafiscales_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($ValorPrestamo_err)) ? 'has-error' : ''; ?>">
                             <label>Valor del Préstamo</label>
-                            <input type="text" name="ValorPrestamo" class="form-control" value="<?php echo $ValorPrestamo; ?>">
+                            <input type="text" name="ValorPrestamo" class="form-control"
+                                value="<?php echo $ValorPrestamo; ?>">
                             <span class="help-block"><?php echo $ValorPrestamo_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($TotalDeducidos_err)) ? 'has-error' : ''; ?>">
                             <label>Total Deducidos</label>
-                            <input type="text" name="TotalDeducidos" class="form-control" value="<?php echo $TotalDeducidos; ?>">
+                            <input type="text" name="TotalDeducidos" class="form-control"
+                                value="<?php echo $TotalDeducidos; ?>">
                             <span class="help-block"><?php echo $TotalDeducidos_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($IDBonificacion_err)) ? 'has-error' : ''; ?>">
@@ -209,15 +211,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                         <div class="form-group <?php echo (!empty($NetoPagado_err)) ? 'has-error' : ''; ?>">
                             <label>Neto Pagado</label>
-                            <input type="text" name="NetoPagado" class="form-control" value="<?php echo $NetoPagado; ?>">
+                            <input type="text" name="NetoPagado" class="form-control"
+                                value="<?php echo $NetoPagado; ?>">
                             <span class="help-block"><?php echo $NetoPagado_err;?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="../crud-Nomina.php" class="btn btn-default">Cancelar</a>
                     </form>
                 </div>
-            </div>        
+            </div>
         </div>
     </div>
 </body>
+
 </html>
